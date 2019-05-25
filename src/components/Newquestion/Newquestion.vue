@@ -2,8 +2,8 @@
 <template>
   <div>
     <Breadcrumb :style="{margin: '16px 0'}">
-      <BreadcrumbItem>导入试题</BreadcrumbItem>
-      <BreadcrumbItem>选择试题模版</BreadcrumbItem>
+      <BreadcrumbItem >导入试题</BreadcrumbItem>
+      <BreadcrumbItem >选择试题模版</BreadcrumbItem>
     </Breadcrumb>
 
     <Card class="card">
@@ -37,7 +37,8 @@
             <Row>
               <Col span="10">
                 <Select v-model="formValidate.type" placeholder="请选择题型">
-                  <Option value="choose">选择题</Option>
+                  <Option value="singlechoose">单选题</Option>
+                  <Option value="multiplechoose">多选题</Option>
                   <Option value="blank">填空题</Option>
                   <Option value="junde">判断题</Option>
                   <Option value="answer">简答题</Option>
@@ -135,7 +136,6 @@ export default {
         type: [
           { required: true, message: '题型不能为空', trigger: 'change' }
         ],
-
         score: [
           { required: true, message: '分值不能为空', trigger: 'change' },
         ],
@@ -145,11 +145,17 @@ export default {
   },
   methods: {
     handleSubmit (name) {
+      //  console.log(this.formValidate.type);
+      //  console.log(name);
+      //  console.log( this.$refs[name]);
       this.$refs[name].validate((valid) => {
+        console.log(valid);
         if (valid) {
+          console.log(this.formValidate.type);
           switch(this.formValidate.type){
-            case "选择题":
-              this.$routers.push("/Entryer/choose")
+            
+            case "singlechoose":
+              this.$router.push("/Entryer/Singlechoose")
           }
         } else {
           this.$Message.error('Fail!');

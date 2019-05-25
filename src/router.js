@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Login from './views/Login.vue'
 import Entryer from  './views/Entryer.vue'
 import Newquestion from './components/Newquestion/Newquestion.vue'
-import Choose from './components/Choose/Choose.vue'
+import Singlechoose from './components/Singlechoose/Singlechoose.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -26,9 +26,9 @@ export default new Router({
           component: Newquestion
         },
         {
-          path: 'Choose',
-          name: 'Choose',
-          component: Choose
+          path: 'Singlechoose',
+          name: 'Singlechoose',
+          component: Singlechoose
         },
       ]
     },
