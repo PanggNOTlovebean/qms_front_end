@@ -4,7 +4,7 @@
    <Breadcrumb :style="{margin: '16px 0'}">
       <BreadcrumbItem>导入试题</BreadcrumbItem>
       <BreadcrumbItem to="/Entryer/Newquestion">选择试题模版</BreadcrumbItem>
-      <BreadcrumbItem>单选题</BreadcrumbItem>
+      <BreadcrumbItem>多选题</BreadcrumbItem>
     </Breadcrumb>
     <Card>
       <div class="editor-wrapper">
@@ -58,11 +58,11 @@
           <Row>
             <Col offset="2">
 
-            <RadioGroup v-model="rightChoose" size="large">
-              <Radio v-for="item in items" v-bind:key="item"  :label="item">
+            <CheckboxGroup  v-model="rightChoose" @on-change="checkChange" size="large">
+              <Checkbox  v-for="item in items" v-bind:key="item"  :label="item">
                   <span>{{item}}</span>
-              </Radio>
-            </RadioGroup>
+              </Checkbox >
+            </CheckboxGroup >
             </Col>
         </Row>
        
@@ -72,7 +72,7 @@
       <div class="editor-wrapper">
         <Row>
           <Col class="ch">
-            题目解析
+            题目解析:
           </col>
         </Row>
         <br>
@@ -107,11 +107,12 @@ export default {
         choice:['','','','','','','','','','','','','','','','',''],
         analysis:'',
       },
-      rightChoose:'',
+      rightChoose:[],
       items:['A','B','C','D'],
       isClear: false
     }
   },
+
   methods: {
     addQuestion(){
       //提交后台
@@ -127,6 +128,9 @@ export default {
         return 
       }
       this.items.push(String.fromCharCode(this.items[len-1].charCodeAt()+1))
+    },
+    checkChange(data){
+      console.log(data);
     }
   },
   components: {

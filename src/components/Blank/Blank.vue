@@ -4,7 +4,7 @@
    <Breadcrumb :style="{margin: '16px 0'}">
       <BreadcrumbItem>导入试题</BreadcrumbItem>
       <BreadcrumbItem to="/Entryer/Newquestion">选择试题模版</BreadcrumbItem>
-      <BreadcrumbItem>单选题</BreadcrumbItem>
+      <BreadcrumbItem>填空题</BreadcrumbItem>
     </Breadcrumb>
     <Card>
       <div class="editor-wrapper">
@@ -26,7 +26,7 @@
       <div class="editor-wrapper">
         <Row>
           <Col class="ch">
-            可选项：
+            填空答案：
           </col>
         </Row>
         <br>  
@@ -43,30 +43,12 @@
         <Row>
           <br>
            <Col offset="13" span="3">
-             <Button class="add_btn" type="dashed" @click="addChoice" >添加新选项</Button>
+             <Button class="add_btn" v-show="addAble" type="dashed" @click="addChoice" >增加填空</Button>
            </Col>
         </Row>
         
       </div>
 
-      <div class="editor-wrapper">
-        <Row>
-          <Col class="ch">
-            正确答案：
-          </Col>
-        </Row>
-          <Row>
-            <Col offset="2">
-
-            <RadioGroup v-model="rightChoose" size="large">
-              <Radio v-for="item in items" v-bind:key="item"  :label="item">
-                  <span>{{item}}</span>
-              </Radio>
-            </RadioGroup>
-            </Col>
-        </Row>
-       
-      </div>
       <br>
 
       <div class="editor-wrapper">
@@ -88,7 +70,7 @@
        <Row>
           <br>
            <Col offset="13" span="3">
-             <Button class="add_btn" type="primary" @click="addQuestion" >上传新试题</Button>
+             <Button class="add_btn"  type="primary" @click="addQuestion" >上传新试题</Button>
            </Col>
         </Row>
         </div>
@@ -108,8 +90,9 @@ export default {
         analysis:'',
       },
       rightChoose:'',
-      items:['A','B','C','D'],
-      isClear: false
+      items:['1'],
+      isClear: false,
+      addAble:true,
     }
   },
   methods: {
@@ -123,10 +106,12 @@ export default {
     },
     addChoice(){
       const len=this.items.length
-      if(len>10){
+     
+      this.items.push(String.fromCharCode(this.items[len-1].charCodeAt()+1))
+      if(len>7){
+        this.addAble=false
         return 
       }
-      this.items.push(String.fromCharCode(this.items[len-1].charCodeAt()+1))
     }
   },
   components: {

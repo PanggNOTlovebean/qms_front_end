@@ -40,7 +40,7 @@
                   <Option value="singlechoose">单选题</Option>
                   <Option value="multiplechoose">多选题</Option>
                   <Option value="blank">填空题</Option>
-                  <Option value="junde">判断题</Option>
+                  <Option value="jundge">判断题</Option>
                   <Option value="answer">简答题</Option>
                   <Option value="Comprehension">综合题</Option>
                 </Select>
@@ -153,9 +153,24 @@ export default {
         if (valid) {
           console.log(this.formValidate.type);
           switch(this.formValidate.type){
-            
             case "singlechoose":
               this.$router.push("/Entryer/Singlechoose")
+              break
+            case "multiplechoose":
+              this.$router.push("/Entryer/Multiplechoose")
+              break
+            case "blank":
+                this.$router.push("/Entryer/Blank")
+                break
+            case "jundge":
+                this.$router.push("/Entryer/Jundge")
+                break
+            case "answer":
+                this.$router.push("/Entryer/Answer")
+                break
+            case "Comprehension":
+                this.$router.push("/Entryer/Comprehension")
+                break
           }
         } else {
           this.$Message.error('Fail!');

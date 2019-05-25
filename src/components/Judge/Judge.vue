@@ -4,7 +4,7 @@
    <Breadcrumb :style="{margin: '16px 0'}">
       <BreadcrumbItem>导入试题</BreadcrumbItem>
       <BreadcrumbItem to="/Entryer/Newquestion">选择试题模版</BreadcrumbItem>
-      <BreadcrumbItem>单选题</BreadcrumbItem>
+      <BreadcrumbItem>判断题 </BreadcrumbItem>
     </Breadcrumb>
     <Card>
       <div class="editor-wrapper">
@@ -22,32 +22,6 @@
         </Row>
       </div>
       <br>
-
-      <div class="editor-wrapper">
-        <Row>
-          <Col class="ch">
-            可选项：
-          </col>
-        </Row>
-        <br>  
-        <Row v-for="(item,index) in items" v-bind:key="item" style="margin-top:20px">
-          <Col span="2" class="ch" >
-           ({{item}}):
-          </Col>
-          <Col span="13">
-            <editor-bar class="choice" v-model="editor.choice[index]" :isClear="isClear" @change="change"></editor-bar>
-          </Col>
-          <br>
-
-        </Row>
-        <Row>
-          <br>
-           <Col offset="13" span="3">
-             <Button class="add_btn" type="dashed" @click="addChoice" >添加新选项</Button>
-           </Col>
-        </Row>
-        
-      </div>
 
       <div class="editor-wrapper">
         <Row>
@@ -104,11 +78,10 @@ export default {
     return {
       editor: {
         stem: '',
-        choice:['','','','','','','','','','','','','','','','',''],
         analysis:'',
       },
       rightChoose:'',
-      items:['A','B','C','D'],
+      items:['对','错'],
       isClear: false
     }
   },
