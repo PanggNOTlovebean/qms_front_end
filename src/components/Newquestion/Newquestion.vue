@@ -1,26 +1,18 @@
- <!-- eslint-disable  -->
 <template>
   <div>
     <Breadcrumb :style="{margin: '16px 0'}">
-      <BreadcrumbItem >导入试题</BreadcrumbItem>
-      <BreadcrumbItem >选择试题模版</BreadcrumbItem>
+      <BreadcrumbItem>导入试题</BreadcrumbItem>
+      <BreadcrumbItem>选择试题模版</BreadcrumbItem>
     </Breadcrumb>
 
     <Card class="card">
       <div class="form-wrapper" style="height: 100% ">
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="70 ">
-          <FormItem label="学校" prop="schoolName">
-            <Row>
-              <Col span="10">
-                <Input v-model="formValidate.name" placeholder="请输入学校"></Input>
-              </Col>
-            </Row>
-          </FormItem>
           <FormItem label="科目" prop="subject">
             <Row>
               <Col span="10">
                 <Select v-model="formValidate.subject" placeholder="请选择科目">
-                  <Option value="language">语文</Option>
+                  <Option value="chinese">语文</Option>
                   <Option value="math">数学</Option>
                   <Option value="english">英语</Option>
                   <Option value="physical">物理</Option>
@@ -41,8 +33,7 @@
                   <Option value="multiplechoose">多选题</Option>
                   <Option value="blank">填空题</Option>
                   <Option value="jundge">判断题</Option>
-                  <Option value="answer">简答题</Option>
-                  <Option value="Comprehension">综合题</Option>
+                  <Option value="discuss">论述题</Option>
                 </Select>
               </Col>
             </Row>
@@ -63,25 +54,25 @@
           <FormItem label="分值" prop="score">
             <Row>
               <Col span="10">
-                <Input v-model="formValidate.score" placeholder="请输入分值"></Input>
+                <Input v-model="formValidate.score" type="number" placeholder="请输入分值"></Input>
               </Col>
             </Row>
           </FormItem>
           <FormItem label="题号" prop="position">
             <Row>
               <Col span="10">
-                <Input v-model="formValidate.position" placeholder="请输入题号"></Input>
+                <Input v-model="formValidate.position" type="number" placeholder="请输入题号"></Input>
               </Col>
             </Row>
           </FormItem>
 
           <FormItem
             v-for="(item, index) in formValidate.items"
-            v-if="item.status"
+            v-show="item.status"
             :key="index"
             :label="'知识点' + item.index "
             :prop="'items.' + index + '.value'"
-            :rules="{required: true, message: '知识点 ' + item.index +'不能为空', trigger: 'blur'}"
+            :rules="{required: false, message: '知识点 ' + item.index +'不能为空', trigger: 'blur'}"
           >
             <Row>
               <Col span="10">
@@ -106,6 +97,7 @@
     </Card>
   </div>
 </template>
+
 <script>
 export default {
   data () {
@@ -116,7 +108,6 @@ export default {
         schoolName: '',
         subject: '',
         type: '',
-        gender: '',
         hardness: 0,
         paper: '',
         score: '',
@@ -139,7 +130,6 @@ export default {
         score: [
           { required: true, message: '分值不能为空', trigger: 'change' },
         ],
-
       }
     }
   },
@@ -149,29 +139,43 @@ export default {
       //  console.log(name);
       //  console.log( this.$refs[name]);
       this.$refs[name].validate((valid) => {
-        console.log(valid);
+        // console.log(valid);
+
         if (valid) {
-          console.log(this.formValidate.type);
-          switch(this.formValidate.type){
-            case "singlechoose":
-              this.$router.push("/Entryer/Singlechoose")
-              break
-            case "multiplechoose":
-              this.$router.push("/Entryer/Multiplechoose")
-              break
-            case "blank":
-                this.$router.push("/Entryer/Blank")
-                break
-            case "jundge":
-                this.$router.push("/Entryer/Jundge")
-                break
-            case "answer":
-                this.$router.push("/Entryer/Answer")
-                break
-            case "Comprehension":
-                this.$router.push("/Entryer/Comprehension")
-                break
-          }
+          // console.log(this.formValidate.type);
+          const that = this
+          // console.log(this.formValidate);
+          this.axios.post('/addQuestionInfo', this.formValidate)
+            .then(function (response) {
+              // handle success
+              // console.log(response.data.id);
+              that.$store.dispatch("setQuestionInfoId",response.data.id)
+              switch (that.formValidate.type) {
+                case "singlechoose":
+                  that.$router.push("/Entryer/Singlechoose")
+                  break
+                case "multiplechoose":
+                  that.$router.push("/Entryer/Multiplechoose")
+                  break
+                case "blank":
+                  that.$router.push("/Entryer/Blank")
+                  break
+                case "judge":
+                  that.$router.push("/Entryer/Judge")
+                  break
+                case "discuss":
+                  that.$router.push("/Entryer/Discuss")
+                  break 
+              }
+            })
+            .catch(function (error) {
+              // handle error
+              // console.log(error)
+              that.$Message.error('error');
+            })
+            .finally(function () {
+              // always executed
+            });
         } else {
           this.$Message.error('Fail!');
         }

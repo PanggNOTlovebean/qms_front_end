@@ -88,11 +88,11 @@ export default {
   methods: {
     addQuestion(){
       //提交后台
-      console.log(this.editor)
-      console.log(this.rightChoose)
+      // console.log(this.editor)
+      // console.log(this.rightChoose)
     },
     change (val) {
-      console.log(val)
+      // console.log(val)
     },
     addChoice(){
       const len=this.items.length
@@ -122,8 +122,5 @@ export default {
 .choice .text{
   height: 100px !important;
 }
-.add_btn{
-  /* margin: 0px !important; */
-  /* padding:0px !important; */
-}
+
 </style>

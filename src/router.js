@@ -7,8 +7,7 @@ import Singlechoose from './components/Singlechoose/Singlechoose.vue'
 import Multiplechoose from './components/Multiplechoose/Multiplechoose.vue'
 import Judge from './components/Judge/Judge.vue'
 import Blank from './components/Blank/Blank.vue'
-import Answer from './components/Answer/Answer.vue'
-import Comprehension from './components/Comprehension/Comprehension.vue'
+import Discuss from './components/Discuss/Discuss.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -51,14 +50,9 @@ export default new Router({
           component: Blank
         },
         {
-          path: 'Comprehension',
-          name: 'Comprehension',
-          component: Comprehension
-        },
-        {
-          path: 'Answer',
-          name: 'Answer',
-          component: Answer
+          path: 'Discuss',
+          name: 'Discuss',
+          component: Discuss
         },
       ]
     },
