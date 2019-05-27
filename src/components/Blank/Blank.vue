@@ -17,7 +17,7 @@
         <Row>
           <Col span="13" offset="2">
 
-          <editor-bar class="editor" v-model="editor.stem" :isClear="isClear" @change="change"></editor-bar>
+          <editor-bar class="editor" v-model="editor.stem" :isClear="isClear"></editor-bar>
           </col>
         </Row>
       </div>
@@ -35,7 +35,7 @@
            ({{item}}):
           </Col>
           <Col span="13">
-            <editor-bar class="choice" v-model="editor.choice[index]" :isClear="isClear" @change="change"></editor-bar>
+            <editor-bar class="choice" v-model="editor.choice[index]" :isClear="isClear"></editor-bar>
           </Col>
           <br>
 
@@ -61,7 +61,7 @@
         <Row>
           <Col span="13" offset="2">
 
-          <editor-bar class="editor" v-model="editor.analysis" :isClear="isClear" @change="change"></editor-bar>
+          <editor-bar class="editor" v-model="editor.analysis" :isClear="isClear"></editor-bar>
           </col>
         </Row>
       </div>
@@ -89,20 +89,53 @@ export default {
         choice:['','','','','','','','','','','','','','','','',''],
         analysis:'',
       },
-      rightChoose:'',
       items:['1'],
       isClear: false,
       addAble:true,
     }
   },
   methods: {
-    addQuestion(){
-      //提交后台
-      // console.log(this.editor)
-      // console.log(this.rightChoose)
+    addQuestion () {
+      var index
+      var stem = this.editor.stem
+      var i=0
+      var answer=""
+      for (i in this.items)
+        answer += "<p>("+this.items[i]+"):</p>"+this.editor.choice[i]
+      var analysis = this.editor.analysis
+      var postdata = {
+        "info_id": this.$route.params.id,
+        "stem": stem,
+        "answer": answer,
+        "analysis": analysis
+      }
+      // console.log(postdata)
+      const that = this
+      if(this.checkValid()==false){
+        that.$Message.warning('请完善信息');
+      }
+      else{
+         this.axios.post("/addQuestionDetail", postdata).then(function (response) {
+        that.$Message.success('插入成功');
+        that.$router.push({ name: "Newquestion" })
+      }).catch(function (error) {
+        // handle error
+        // console.log(error)
+        that.$Message.error('error');
+      }).finally(function () {
+        // always executed
+      });
+      }
     },
-    change (val) {
-      // console.log(val)
+    checkValid () {
+      var index
+      if (this.editor.stem == "")
+        return false
+      for (index in this.items) {
+        if (this.editor.choice[index] == "")
+          return false
+      }
+      return true
     },
     addChoice(){
       const len=this.items.length

@@ -17,7 +17,7 @@
         <Row>
           <Col span="13" offset="2">
 
-          <editor-bar class="editor" v-model="editor.stem" :isClear="isClear" @change="change"></editor-bar>
+          <editor-bar class="editor" v-model="editor.stem" :isClear="isClear" ></editor-bar>
           </col>
         </Row>
       </div>
@@ -53,7 +53,7 @@
         <Row>
           <Col span="13" offset="2">
 
-          <editor-bar class="editor" v-model="editor.analysis" :isClear="isClear" @change="change"></editor-bar>
+          <editor-bar class="editor" v-model="editor.analysis" :isClear="isClear" ></editor-bar>
           </col>
         </Row>
       </div>
@@ -86,13 +86,39 @@ export default {
     }
   },
   methods: {
-    addQuestion(){
-      //提交后台
-      // console.log(this.editor)
-      // console.log(this.rightChoose)
+   addQuestion () {
+      var index
+      var stem = this.editor.stem
+      var answer="<p>"+this.rightChoose+"</p>"
+      var analysis = this.editor.analysis
+      var postdata = {
+        "info_id": this.$route.params.id,
+        "stem": stem,
+        "answer": answer,
+        "analysis": analysis
+      }
+
+      const that = this
+      if(this.checkValid()==false){
+        that.$Message.warning('请完善信息');
+      }
+      else{
+         this.axios.post("/addQuestionDetail", postdata).then(function (response) {
+        that.$Message.success('插入成功');
+        that.$router.push({ name: "Newquestion" })
+      }).catch(function (error) {
+        // handle error
+        // console.log(error)
+        that.$Message.error('error');
+      }).finally(function () {
+        // always executed
+      });
+      }
     },
-    change (val) {
-      // console.log(val)
+    checkValid () {
+      if (this.editor.stem == ""||this.rightChoose=="")
+        return false
+      return true
     },
     addChoice(){
       const len=this.items.length

@@ -59,9 +59,17 @@
             this.isCollapsed=true
             //菜单切换
             // console.log(name);
+            console.log(name);
             switch(name){
               case "1":
                 this.$router.push('/Entryer/newQuestion')
+                break
+              case "2":
+                this.$router.push('/Entryer/newPaper')
+                break
+              case "3":
+                this.$router.push('/')
+                break
             }
             
           }

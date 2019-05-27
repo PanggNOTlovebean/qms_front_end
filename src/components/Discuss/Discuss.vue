@@ -16,7 +16,7 @@
         <Row>
           <Col span="13" offset="2">
 
-          <editor-bar class="editor" v-model="editor.stem" :isClear="isClear" @change="change"></editor-bar>
+          <editor-bar class="editor" v-model="editor.stem" :isClear="isClear" ></editor-bar>
           </col>
         </Row>
       </div>
@@ -32,7 +32,7 @@
          <Row>
           <Col span="13" offset="2">
 
-          <editor-bar class="editor" v-model="editor.answer" :isClear="isClear" @change="change"></editor-bar>
+          <editor-bar class="editor" v-model="editor.answer" :isClear="isClear" ></editor-bar>
           </col>
         </Row>
       
@@ -50,7 +50,7 @@
         <Row>
           <Col span="13" offset="2">
 
-          <editor-bar class="editor" v-model="editor.analysis" :isClear="isClear" @change="change"></editor-bar>
+          <editor-bar class="editor" v-model="editor.analysis" :isClear="isClear" ></editor-bar>
           </col>
         </Row>
       </div>
@@ -85,16 +85,37 @@ export default {
     }
   },
   methods: {
-    addQuestion(){
-      // TODO
+    addQuestion () {
+      var postdata = {
+        "info_id": this.$route.params.id,
+        "stem": this.editor.stem,
+        "answer": this.editor.answer,
+        "analysis": this.editor.analysis
+      }
 
-      //提交后台
-      // console.log(this.editor)
-      // console.log(this.rightChoose)
+      const that = this
+      if(this.checkValid()==false){
+        that.$Message.warning('请完善信息');
+      }
+      else{
+         this.axios.post("/addQuestionDetail", postdata).then(function (response) {
+        that.$Message.success('插入成功');
+        that.$router.push({ name: "Newquestion" })
+      }).catch(function (error) {
+        // handle error
+        // console.log(error)
+        that.$Message.error('error');
+      }).finally(function () {
+        // always executed
+      });
+      }
     },
-    change (val) {
-      // console.log(val)
+    checkValid () {
+      if (this.editor.stem == ""||this.editor.answer=="")
+        return false
+      return true
     },
+
     addChoice(){
       const len=this.items.length
      

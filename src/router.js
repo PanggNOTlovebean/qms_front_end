@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from './views/Login.vue'
 import Entryer from  './views/Entryer.vue'
 import Newquestion from './components/Newquestion/Newquestion.vue'
+import Newpaper from './components/Newpaper/Newpaper.vue'
 import Singlechoose from './components/Singlechoose/Singlechoose.vue'
 import Multiplechoose from './components/Multiplechoose/Multiplechoose.vue'
 import Judge from './components/Judge/Judge.vue'
@@ -19,6 +20,7 @@ export default new Router({
       name: 'login',
       component: Login
     },
+    
     {
       path: '/Entryer',
       name: 'Entryer',
@@ -30,27 +32,32 @@ export default new Router({
           component: Newquestion
         },
         {
-          path: 'Singlechoose',
+          path: 'Newpaper',
+          name: 'Newpaper',
+          component: Newpaper
+        },
+        {
+          path: 'Singlechoose/:id',
           name: 'Singlechoose',
           component: Singlechoose
         },
         {
-          path: 'Multiplechoose',
+          path: 'Multiplechoose/:id',
           name: 'Multiplechoose',
           component: Multiplechoose
         },
         {
-          path: 'Judge',
+          path: 'Judge/:id',
           name: 'Judge',
           component: Judge
         },
         {
-          path: 'Blank',
+          path: 'Blank/:id',
           name: 'Blank',
           component: Blank
         },
         {
-          path: 'Discuss',
+          path: 'Discuss/:id',
           name: 'Discuss',
           component: Discuss
         },

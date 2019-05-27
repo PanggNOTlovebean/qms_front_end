@@ -1,5 +1,6 @@
- <!-- eslint-disable  -->
+
 <template>
+<!-- eslint-disable  -->
   <div>
     <Breadcrumb :style="{margin: '16px 0'}">
       <BreadcrumbItem>导入试题</BreadcrumbItem>
@@ -32,7 +33,7 @@
               class="choice"
               v-model="editor.choice[index]"
               :isClear="isClear"
-              @change="change"
+
             ></editor-bar>
           </Col>
           <br>
@@ -72,7 +73,7 @@
               class="editor"
               v-model="editor.analysis"
               :isClear="isClear"
-              @change="change"
+
             ></editor-bar>
           </Col>
         </Row>
@@ -116,7 +117,7 @@ export default {
       var answer = "<p>" + this.rightChoose + "</p>"
       var analysis = this.editor.analysis
       var postdata = {
-        "info_id": this.$store.state.questionInfoId,
+        "info_id": this.$route.params.id,
         "stem": stem,
         "answer": answer,
         "analysis": analysis
@@ -127,24 +128,18 @@ export default {
         that.$Message.warning('请完善信息');
       }
       else{
-         this.axios.post("/addQuestionDetail", postdata).then(function (response) {
+        this.axios.post("/addQuestionDetail", postdata).then(function (response) {
         that.$Message.success('插入成功');
         that.$router.push({ name: "Newquestion" })
       }).catch(function (error) {
         // handle error
         // console.log(error)
-        that.$Message.error('error');
+        that.$Message.error(error.data);
       }).finally(function () {
         // always executed
       });
       }
      
-      // 提交后台
-      // console.log(this.editor)
-      // console.log(this.rightChoose)
-
-
-
     },
     checkValid () {
       var index

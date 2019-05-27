@@ -32,7 +32,7 @@
                   <Option value="singlechoose">单选题</Option>
                   <Option value="multiplechoose">多选题</Option>
                   <Option value="blank">填空题</Option>
-                  <Option value="jundge">判断题</Option>
+                  <Option value="judge">判断题</Option>
                   <Option value="discuss">论述题</Option>
                 </Select>
               </Col>
@@ -152,19 +152,19 @@ export default {
               that.$store.dispatch("setQuestionInfoId",response.data.id)
               switch (that.formValidate.type) {
                 case "singlechoose":
-                  that.$router.push("/Entryer/Singlechoose")
+                  that.$router.push("/Entryer/Singlechoose/"+response.data.id)
                   break
                 case "multiplechoose":
-                  that.$router.push("/Entryer/Multiplechoose")
+                  that.$router.push("/Entryer/Multiplechoose/"+response.data.id)
                   break
                 case "blank":
-                  that.$router.push("/Entryer/Blank")
+                  that.$router.push("/Entryer/Blank/"+response.data.id)
                   break
                 case "judge":
-                  that.$router.push("/Entryer/Judge")
+                  that.$router.push("/Entryer/Judge/"+response.data.id)
                   break
                 case "discuss":
-                  that.$router.push("/Entryer/Discuss")
+                  that.$router.push("/Entryer/Discuss/"+response.data.id)
                   break 
               }
             })
