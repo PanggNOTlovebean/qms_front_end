@@ -149,7 +149,7 @@ export default {
             .then(function (response) {
               // handle success
               // console.log(response.data.id);
-              that.$store.dispatch("setQuestionInfoId",response.data.id)
+              // that.$store.dispatch("setQuestionInfoId",response.data.id)
               switch (that.formValidate.type) {
                 case "singlechoose":
                   that.$router.push("/Entryer/Singlechoose/"+response.data.id)

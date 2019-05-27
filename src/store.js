@@ -5,17 +5,21 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    questionInfoId:0
+    addList:{}
   },
-  mutations: {
-    getQuestionInfoId(state){
-      return state.questionInfoId
+  getters: {
+    getAddList(state){
+      return state.addList
     }
   },
   actions: {
-    setQuestionInfoId({commit,state},id){
-      state.questionInfoId=id
+    updateList({commit,state},dict){
+      commit('setAddList',dict) 
     }
-
+  },
+  mutations:{
+    setAddList(state,dict){
+      state.addList=dict
+    }
   }
 })

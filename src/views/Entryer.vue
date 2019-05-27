@@ -12,7 +12,7 @@
                     <p>&nbsp</p>
                   </div>
                 </div>
-                <Menu active-name="1-1" theme="dark" width="auto" :class="menuitemClasses" @on-select="menuSelect">
+                <Menu :active-name="activeMenu" theme="dark" width="auto" :class="menuitemClasses" @on-select="menuSelect">
                     <MenuItem name="1" >
                         <Icon type="md-add-circle" />
                         <span>导入试题</span>
@@ -46,12 +46,28 @@
                 
             };
         },
+        created() {
+          console.log(this.$route.path);
+        },
         computed: {
             menuitemClasses: function () {
                 return [
                     'menu-item',
                     this.isCollapsed ? 'collapsed-menu' : ''
                 ]
+            },
+            activeMenu(){
+              
+              if(this.$route.path=="/Entryer/newQuestion"||this.$route.path=="/Entryer/Newquestion"){
+                console.log(111);
+                return "1";
+              }
+              else if(this.$route.path=="/Entryer/newPaper"||this.$route.path=="/Entryer/Newpaper"){
+                console.log(222);
+                 return "2";
+              }
+              else
+                return "0";
             }
         },
         methods: {
@@ -59,7 +75,7 @@
             this.isCollapsed=true
             //菜单切换
             // console.log(name);
-            console.log(name);
+            // console.log(name);
             switch(name){
               case "1":
                 this.$router.push('/Entryer/newQuestion')

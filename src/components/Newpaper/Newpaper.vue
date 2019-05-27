@@ -26,7 +26,7 @@
           <FormItem label="年级" prop="grade">
             <Row>
               <Col span="10">
-               <Select v-model="formValidate.grade" placeholder="请选择科目">
+                <Select v-model="formValidate.grade" placeholder="请选择科目">
                   <Option value="1">一年级</Option>
                   <Option value="2">二年级</Option>
                   <Option value="3">三年级</Option>
@@ -65,7 +65,7 @@
           <FormItem label="选择题数" prop="singlechoose">
             <Row>
               <Col span="5">
-                 <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.singlechoose.num"></InputNumber>
+                <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.singlechoose.num"></InputNumber>
               </Col>
               <Col span="5">
                 <span>单个分值&nbsp&nbsp&nbsp</span>
@@ -77,11 +77,16 @@
           <FormItem label="多选题数" prop="multiplechoose">
             <Row>
               <Col span="5">
-                 <InputNumber :max="10" :min="0" :step="1" v-model="formValidate.multiplechoose.num"></InputNumber>
+                <InputNumber :max="10" :min="0" :step="1" v-model="formValidate.multiplechoose.num"></InputNumber>
               </Col>
               <Col span="5">
                 <span>单个分值&nbsp&nbsp&nbsp</span>
-                <InputNumber :max="10" :min="0" :step="1" v-model="formValidate.multiplechoose.score"></InputNumber>
+                <InputNumber
+                  :max="10"
+                  :min="0"
+                  :step="1"
+                  v-model="formValidate.multiplechoose.score"
+                ></InputNumber>
               </Col>
             </Row>
           </FormItem>
@@ -89,7 +94,7 @@
           <FormItem label="判断题数" prop="judge">
             <Row>
               <Col span="5">
-                 <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.judge.num"></InputNumber>
+                <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.judge.num"></InputNumber>
               </Col>
               <Col span="5">
                 <span>单个分值&nbsp&nbsp&nbsp</span>
@@ -97,11 +102,22 @@
               </Col>
             </Row>
           </FormItem>
-          
+          <FormItem label="填空题数" prop="blank">
+            <Row>
+              <Col span="5">
+                <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.blank.num"></InputNumber>
+              </Col>
+              <Col span="5">
+                <span>单个分值&nbsp&nbsp&nbsp</span>
+                <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.blank.score"></InputNumber>
+              </Col>
+            </Row>
+          </FormItem>
+
           <FormItem label="简答题数" prop="discuss">
             <Row>
               <Col span="5">
-                 <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.discuss.num"></InputNumber>
+                <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.discuss.num"></InputNumber>
               </Col>
               <Col span="5">
                 <span>单个分值&nbsp&nbsp&nbsp</span>
@@ -122,7 +138,6 @@
             <Button type="primary" @click="handleSubmit('formValidate')">开始试题导入</Button>
             <Button @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
           </FormItem>
-
         </Form>
       </div>
     </Card>
@@ -136,31 +151,32 @@ export default {
       formValidate: {
         name: '',
         subject: '',
-        grade:'',
+        grade: '',
         score: '',
-        singlechoose:{
-          num:0,score:0
+        school: '',
+        singlechoose: {
+          num: 0, score: 0
         },
-        multiplechoose:{
-          num:0,score:0
+        multiplechoose: {
+          num: 0, score: 0
         },
-        judge:{
-          num:0,score:0
+        judge: {
+          num: 0, score: 0
         },
-        blank:{
-          num:0,score:0
+        blank: {
+          num: 0, score: 0
         },
-        discuss:{
-          num:0,score:0
+        discuss: {
+          num: 0, score: 0
         },
       },
-      ruleValidate: 
+      ruleValidate:
       {
-        name:[
-           { required: true, message: '试卷名不能为空', trigger: 'blur' },
+        name: [
+          { required: true, message: '试卷名不能为空', trigger: 'blur' },
         ],
-        school:[
-           { required: true, message: '学校名不能为空', trigger: 'blur' },
+        school: [
+          { required: true, message: '学校名不能为空', trigger: 'blur' },
         ],
         grade: [
           { required: true, message: '科目不能为空', trigger: 'blur' },
@@ -172,13 +188,28 @@ export default {
     }
   },
   methods: {
+    intoNext () {
+      var intoList = this.$store.getters.getAddList
+      var typeList = ['singlechoose', 'multiplechoose', 'judge', 'blank', 'discuss']
+      var i = 0
+      for (i in typeList) {
+        if (intoList[typeList[i]].length != 0) {
+          let paperId = intoList['paper_id']
+          let queId = intoList[typeList[i]].shift()
+          console.log(queId);
+          this.$store.dispatch("updateList", intoList)
+          this.$router.push("/Entryer/" + typeList[i] + "forpaper/" + queId)
+          break;
+        }
+      }
+    },
     handleSubmit (name) {
       //  console.log(this.formValidate.type);
       //  console.log(name);
       //  console.log( this.$refs[name]);
       this.$refs[name].validate((valid) => {
         // console.log(valid);
-        if (this.score==0){
+        if (this.score == 0) {
           this.$Message.error('分数不能为0');
           return
         }
@@ -186,17 +217,19 @@ export default {
           // console.log(this.formValidate.type);
           const that = this
           // console.log(this.formValidate);
-          let postdata=this.formValidate
-          postdata["score"]=this.score
+          console.log(postdata);
+          let postdata = this.formValidate
+          postdata["score"] = this.score
           console.log(postdata);
           this.axios.post('/addPaper', this.formValidate)
             .then(function (response) {
-                
-              }
-            )
+              that.$store.dispatch("updateList", response.data)
+              that.intoNext()
+            })
             .catch(function (error) {
               // handle error
               // console.log(error)
+              console.log(error);
               that.$Message.error('error');
             })
             .finally(function () {
@@ -221,12 +254,12 @@ export default {
 
   },
   computed: {
-    score(){
-      let ret=this.formValidate.singlechoose.num*this.formValidate.singlechoose.score
-      ret+=this.formValidate.multiplechoose.num*this.formValidate.multiplechoose.score
-      ret+=this.formValidate.blank.num*this.formValidate.blank.score
-      ret+=this.formValidate.judge.num*this.formValidate.judge.score
-      ret+=this.formValidate.discuss.num*this.formValidate.discuss.score
+    score () {
+      let ret = this.formValidate.singlechoose.num * this.formValidate.singlechoose.score
+      ret += this.formValidate.multiplechoose.num * this.formValidate.multiplechoose.score
+      ret += this.formValidate.blank.num * this.formValidate.blank.score
+      ret += this.formValidate.judge.num * this.formValidate.judge.score
+      ret += this.formValidate.discuss.num * this.formValidate.discuss.score
       // console.log(ret);
       return ret
     }
