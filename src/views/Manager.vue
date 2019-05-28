@@ -30,14 +30,17 @@
             <span>学校管理</span>
           </MenuItem>
 
-          <MenuItem name="4">
-            <Icon type="ios-git-network"/>
-            <span>手动组卷</span>
-          </MenuItem>
+         
           <MenuItem name="5">
             <Icon type="ios-git-network"/>
             <span>自动组卷</span>
           </MenuItem>
+
+           <MenuItem name="4">
+            <Icon type="ios-git-network"/>
+            <span>手动组卷</span>
+          </MenuItem>
+          
         </Menu>
       </Sider>
       <Layout>
@@ -100,8 +103,12 @@ export default {
         case "3":
           this.$router.push('/Manager/SchoolManager')
           break
+        case "4":
+          this.$router.push('/Manager/MakePaperByHand')
+          break
         case "5":
           this.$router.push('/Manager/MakePaperAuto')
+          break
 
       }
 

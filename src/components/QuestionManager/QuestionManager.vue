@@ -21,7 +21,7 @@ export default {
       columns2: [
         {
           title: 'id',
-          key: 'question_detail_id',
+          key: 'question_info_id',
           width: '200%',
           fixed: 'left'
         },
