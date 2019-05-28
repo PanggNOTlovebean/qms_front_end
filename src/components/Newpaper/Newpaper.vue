@@ -65,9 +65,9 @@
           <FormItem label="选择题数" prop="singlechoose">
             <Row>
               <Col span="5">
-                <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.singlechoose.num"></InputNumber>
+                <InputNumber :max="100" :min="0" :step="1" v-model="formValidate.singlechoose.num"></InputNumber>
               </Col>
-              <Col span="5">
+              <Col v-show="false" span="5">
                 <span>单个分值&nbsp&nbsp&nbsp</span>
                 <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.singlechoose.score"></InputNumber>
               </Col>
@@ -77,9 +77,9 @@
           <FormItem label="多选题数" prop="multiplechoose">
             <Row>
               <Col span="5">
-                <InputNumber :max="10" :min="0" :step="1" v-model="formValidate.multiplechoose.num"></InputNumber>
+                <InputNumber :max="100" :min="0" :step="1" v-model="formValidate.multiplechoose.num"></InputNumber>
               </Col>
-              <Col span="5">
+              <Col v-show="false" span="5">
                 <span>单个分值&nbsp&nbsp&nbsp</span>
                 <InputNumber
                   :max="10"
@@ -94,9 +94,9 @@
           <FormItem label="判断题数" prop="judge">
             <Row>
               <Col span="5">
-                <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.judge.num"></InputNumber>
+                <InputNumber :max="100" :min="0" :step="1" v-model="formValidate.judge.num"></InputNumber>
               </Col>
-              <Col span="5">
+              <Col v-show="false" span="5">
                 <span>单个分值&nbsp&nbsp&nbsp</span>
                 <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.judge.score"></InputNumber>
               </Col>
@@ -105,9 +105,9 @@
           <FormItem label="填空题数" prop="blank">
             <Row>
               <Col span="5">
-                <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.blank.num"></InputNumber>
+                <InputNumber :max="100" :min="0" :step="1" v-model="formValidate.blank.num"></InputNumber>
               </Col>
-              <Col span="5">
+              <Col v-show="false" span="5">
                 <span>单个分值&nbsp&nbsp&nbsp</span>
                 <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.blank.score"></InputNumber>
               </Col>
@@ -117,10 +117,10 @@
           <FormItem label="简答题数" prop="discuss">
             <Row>
               <Col span="5">
-                <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.discuss.num"></InputNumber>
+                <InputNumber :max="100" :min="0" :step="1" v-model="formValidate.discuss.num"></InputNumber>
               </Col>
-              <Col span="5">
-                <span>单个分值&nbsp&nbsp&nbsp</span>
+              <Col v-show="false" span="5">
+                <span >单个分值&nbsp&nbsp&nbsp</span>
                 <InputNumber :max="20" :min="0" :step="1" v-model="formValidate.discuss.score"></InputNumber>
               </Col>
             </Row>
@@ -129,7 +129,7 @@
           <FormItem label="总分" prop="score">
             <Row>
               <Col span="10">
-                <Input v-model="score" type="number" disabled placeholder="请输入总分"></Input>
+                <Input v-model="formValidate.score" type="number"  placeholder="请输入总分"></Input>
               </Col>
             </Row>
           </FormItem>
@@ -152,7 +152,7 @@ export default {
         name: '',
         subject: '',
         grade: '',
-        score: '',
+        score: 0,
         school: '',
         singlechoose: {
           num: 0, score: 0
@@ -230,7 +230,6 @@ export default {
               // handle error
               // console.log(error)
               console.log(error);
-
               that.$Message.error('存在同样试卷');
             })
             .finally(function () {
@@ -256,13 +255,8 @@ export default {
   },
   computed: {
     score () {
-      let ret = this.formValidate.singlechoose.num * this.formValidate.singlechoose.score
-      ret += this.formValidate.multiplechoose.num * this.formValidate.multiplechoose.score
-      ret += this.formValidate.blank.num * this.formValidate.blank.score
-      ret += this.formValidate.judge.num * this.formValidate.judge.score
-      ret += this.formValidate.discuss.num * this.formValidate.discuss.score
-      // console.log(ret);
-      return ret
+   // console.log(ret);
+      return this.formValidate.score
     }
   },
 }

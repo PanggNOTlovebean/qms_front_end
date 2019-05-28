@@ -6,6 +6,44 @@
       <BreadcrumbItem>填空题</BreadcrumbItem>
     </Breadcrumb>
     <Card>
+       <div class="info-wrapper">
+        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="70 ">
+          <FormItem label="分值" prop="score">
+            <Row>
+              <Col span="10">
+                <Input v-model="formValidate.score" type="number" placeholder="请输入分值"></Input>
+              </Col>
+            </Row>
+          </FormItem>
+          <FormItem label="难度" prop="hardness">
+            <Rate show-text v-model="formValidate.hardness">
+              <span style="color: #f5a623">{{ valueCustomText }}</span>
+            </Rate>
+          </FormItem>
+          <FormItem
+            v-for="(item, index) in formValidate.items"
+            v-show="item.status"
+            :key="index"
+            :label="'知识点' + item.index "
+            :prop="'items.' + index + '.value'"
+            :rules="{required: false, message: '知识点 ' + item.index +'不能为空', trigger: 'blur'}"
+          >
+            <Row>
+              <Col span="10">
+                <Input type="text" v-model="item.value" placeholder="请输入知识点"></Input>
+              </Col>
+            </Row>
+          </FormItem>
+
+          <FormItem>
+            <Row>
+              <Col span="5" offset="2">
+                <Button type="dashed" long @click="handleAdd" icon="md-add">添加知识点</Button>
+              </Col>
+            </Row>
+          </FormItem>
+        </Form>
+      </div>
       <div class="editor-wrapper">
         <Row>
           <Col class="ch">
@@ -73,6 +111,23 @@ import EditorBar from '@/components/EditorBar/EditorBar.vue'
 export default {
   data () {
     return {
+            index: 1,
+      formValidate: {
+        hardness: 0,
+        score: 0,
+        items: [
+          {
+            value: '',
+            index: 1,
+            status: 1,
+          }
+        ]
+      },
+      ruleValidate: {
+        score: [
+          { required: true, message: '分值不能为空' },
+        ],
+      },
       editor: {
         stem: '',
         answer:'',
@@ -115,11 +170,12 @@ export default {
         "info_id": this.$route.params.id,
         "stem": this.editor.stem,
         "answer": this.editor.answer,
-        "analysis": this.editor.analysis
+        "analysis": this.editor.analysis,
+          "form":this.formValidate
       }
 
       const that = this
-      if(this.checkValid()==false){
+      if(this.checkValid()==false||this.formValidate.score == 0){
         that.$Message.warning('请完善信息');
       }
       else{
@@ -149,11 +205,63 @@ export default {
         this.addAble=false
         return 
       }
+    }, addChoice () {
+      const len = this.items.length
+      if (len > 10) {
+        return
+      }
+      this.items.push(String.fromCharCode(this.items[len - 1].charCodeAt() + 1))
+    },
+    handleAdd () {
+      this.index++;
+      this.formValidate.items.push({
+        value: '',
+        index: this.index,
+        status: 1,
+        deleteStatus: 1
+      })
+    },
+  },
+  computed: {
+    valueCustomText () {
+      switch (this.hardness) {
+        case 0:
+          return "";
+        case 1:
+          return "简单";
+        case 2:
+          return "容易";
+        case 3:
+          return "中等";
+        case 4:
+          return "较难";
+        case 5:
+          return "困难";
+      }
+      return ""
     }
   },
   components: {
     EditorBar
-  }
+  }, computed: {
+    valueCustomText () {
+      switch (this.formValidate.hardness) {
+        case 0:
+          return "";
+        case 1:
+          return "简单";
+        case 2:
+          return "容易";
+        case 3:
+          return "中等";
+        case 4:
+          return "较难";
+        case 5:
+          return "困难";
+      }
+      return ""
+    }
+  },
 }
 </script>
 
@@ -171,5 +279,7 @@ export default {
 .choice .text{
   height: 100px !important;
 }
-
+.info-wrapper {
+  padding-left: 15%;
+}
 </style>
