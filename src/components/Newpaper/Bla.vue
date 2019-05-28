@@ -291,7 +291,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
 .ch{
   font-size: 20px 
 }

@@ -109,7 +109,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" >
 .editor {
   width: 100%;
   margin: 0 auto;

@@ -100,6 +100,8 @@ export default {
         case "3":
           this.$router.push('/Manager/SchoolManager')
           break
+        case "5":
+          this.$router.push('/Manager/MakePaperAuto')
 
       }
 

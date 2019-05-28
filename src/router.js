@@ -18,6 +18,8 @@ import Manager from './views/Manager.vue';
 import QuestionManager from './components/QuestionManager/QuestionManager.vue';
 import SchoolManager from './components/SchoolManager/SchoolManager.vue';
 import PaperManager from './components/PaperManager/PaperManager.vue';
+import MakePaperAuto from './components/MakePaper/MakePaperAuto.vue';
+import Paper from './components/Paper/Paper.vue';
 Vue.use(Router);
 
 export default new Router({
@@ -106,6 +108,8 @@ export default new Router({
 				{ path: 'QuestionManager', name: 'QuestionManager', component: QuestionManager },
 				{ path: 'SchoolManager', name: 'SchoolManager', component: SchoolManager },
 				{ path: 'PaperManager', name: 'PaperManager', component: PaperManager },
+				{ path: 'MakePaperAuto', name: 'MakePaperAuto', component: MakePaperAuto },
+				{ path: 'Paper', name: 'Paper', component: Paper },
 			]
 		}
 	]
