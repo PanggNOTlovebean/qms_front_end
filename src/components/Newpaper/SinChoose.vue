@@ -145,6 +145,8 @@ export default {
           break;
         }
       }
+       this.$Message.success("试卷导入成功")
+      this.$router.push("/Entryer/Newpaper")
     },
     addQuestion () {
       var index

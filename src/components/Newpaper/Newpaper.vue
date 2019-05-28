@@ -230,7 +230,8 @@ export default {
               // handle error
               // console.log(error)
               console.log(error);
-              that.$Message.error('error');
+
+              that.$Message.error('存在同样试卷');
             })
             .finally(function () {
               // always executed

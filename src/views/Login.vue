@@ -45,7 +45,7 @@
       // console.log(this.username);
       // console.log(this.password);
       //登陆验证
-      this.$router.push("Entryer")
+      this.$router.push("Manager")
      }
    }
  }
