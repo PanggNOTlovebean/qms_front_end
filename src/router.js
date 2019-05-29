@@ -24,7 +24,7 @@ import MakePaperByHand from './components/MakePaper/MakePaperByHand.vue'
 import AddQuestion from './components/MakePaper/AddQuestion.vue'
 Vue.use(Router);
 
-export default new Router({
+const router=new Router({
 	mode: 'history',
 	base: process.env.BASE_URL,
 	routes: [
@@ -33,11 +33,18 @@ export default new Router({
 			name: 'login',
 			component: Login
 		},
-
+    {
+			path: '/login',
+			name: 'login',
+			component: Login
+		},
 		{
 			path: '/Entryer',
 			name: 'Entryer',
-			component: Entryer,
+      component: Entryer,
+      meta: {
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆
+      },
 			children: [
 				{
 					path: 'Newquestion',
@@ -105,7 +112,10 @@ export default new Router({
 		{
 			path: '/Manager',
 			name: 'manager',
-			component: Manager,
+      component: Manager,
+      meta: {
+        requireAuth: true // 配置此条，进入页面前判断是否需要登陆
+      },
 			children: [
 				{ path: 'QuestionManager', name: 'QuestionManager', component: QuestionManager },
 				{ path: 'SchoolManager', name: 'SchoolManager', component: SchoolManager },
@@ -118,3 +128,19 @@ export default new Router({
 		}
 	]
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(res => res.meta.requireAuth)) { // 验证是否需要登陆
+    if (sessionStorage.getItem("auth")) { // 查询本地存储信息是否已经登陆
+      next();
+    } else {
+      next({
+        path: '/login', // 未登录则跳转至login页面
+        // query: {redirect: to.fullPath} // 登陆成功后回到当前页面，这里传值给login页面，to.fullPath为当前点击的页面
+        });
+    }
+  } else {
+    next();
+  }})
+
+export default router

@@ -84,6 +84,7 @@
                 this.$router.push('/Entryer/newPaper')
                 break
               case "3":
+                sessionStorage.removeItem("auth")
                 this.$router.push('/')
                 break
             }

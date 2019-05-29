@@ -30,17 +30,19 @@
             <span>学校管理</span>
           </MenuItem>
 
-         
           <MenuItem name="5">
             <Icon type="ios-git-network"/>
             <span>自动组卷</span>
           </MenuItem>
 
-           <MenuItem name="4">
+          <MenuItem name="4">
             <Icon type="ios-git-network"/>
             <span>手动组卷</span>
           </MenuItem>
-          
+          <MenuItem name="6">
+            <Icon type="md-exit"/>
+            <span>注销</span>
+          </MenuItem>
         </Menu>
       </Sider>
       <Layout>
@@ -108,6 +110,10 @@ export default {
           break
         case "5":
           this.$router.push('/Manager/MakePaperAuto')
+          break
+        case "6":
+          sessionStorage.removeItem("auth")
+          this.$router.push('/')
           break
 
       }
